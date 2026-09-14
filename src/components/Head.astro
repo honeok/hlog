@@ -20,7 +20,6 @@ const isHome = Astro.url.pathname === "/";
 const pageTitle = isHome ? SITE.title : `${title} | ${SITE.title}`;
 const pathname = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replace(/\/+$/, "");
 const canonical = new URL(pathname, Astro.site ?? Astro.url);
-const openGraphImage = new URL("/open-graph.png", Astro.site ?? Astro.url);
 const articleJsonLd =
   type === "article" && publishedTime
     ? {
@@ -30,7 +29,6 @@ const articleJsonLd =
         description,
         url: canonical.href,
         datePublished: publishedTime.toISOString(),
-        image: openGraphImage.href,
         ...(modifiedTime ? { dateModified: modifiedTime.toISOString() } : {}),
         author: {
           "@type": "Person",
@@ -70,22 +68,7 @@ const articleJsonLdJson = articleJsonLd ? JSON.stringify(articleJsonLd).replace(
 <link rel="alternate" type="application/rss+xml" title={`${SITE.title} RSS`} href="/rss.xml" />
 <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
 
-<meta property="og:type" content={type} />
-<meta property="og:url" content={canonical} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={openGraphImage} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:type" content="image/png" />
-<meta property="og:image:alt" content="" />
-{publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
 {articleJsonLdJson && <script is:inline type="application/ld+json" set:html={articleJsonLdJson} />}
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={openGraphImage} />
-<meta name="twitter:image:alt" content="" />
 
 {ANALYTICS && <script is:inline defer src={ANALYTICS.src} data-website-id={ANALYTICS.websiteId} />}
 
