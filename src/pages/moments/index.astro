@@ -1,0 +1,17 @@
+---
+import MomentList from "@components/MomentList.astro";
+import Pagination from "@components/Pagination.astro";
+import SiteLayout from "@layouts/SiteLayout.astro";
+import { getPublishedMoments } from "@lib/moments";
+import { MOMENTS_PER_PAGE } from "../../config";
+
+const moments = await getPublishedMoments();
+const lastPage = Math.ceil(moments.length / MOMENTS_PER_PAGE);
+const entries = moments.slice(0, MOMENTS_PER_PAGE);
+---
+
+<SiteLayout title="瞬间" description="随手记录的片刻与想法。">
+  <h1 class="page-title">瞬间</h1>
+  {entries.length > 0 ? <MomentList {entries} /> : <p>还没有公开的瞬间。</p>}
+  {lastPage > 1 && <Pagination currentPage={1} {lastPage} next="/moments/page/2" />}
+</SiteLayout>

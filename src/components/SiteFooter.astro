@@ -1,0 +1,70 @@
+---
+import { FILING, SITE } from "../config";
+
+const year = new Date().getFullYear();
+const filingParts = FILING?.label.split(/(\d+)/) ?? [];
+const filingHref = FILING?.href ?? "";
+---
+
+<footer data-has-filing={FILING ? "" : undefined}>
+  <span>
+    © {year}{" "}{SITE.author} · <a
+      href="https://creativecommons.org/licenses/by-nc-sa/4.0"
+      target="_blank"
+      rel="license noopener">CC BY-NC-SA 4.0</a
+    >
+  </span>
+  {
+    FILING && (
+      <span>
+        {filingParts.map((part) =>
+          /^\d+$/.test(part) ? (
+            <a href={filingHref} target="_blank" rel="noopener">
+              {part}
+            </a>
+          ) : (
+            part
+          ),
+        )}
+      </span>
+    )
+  }
+</footer>
+
+<style>
+  footer {
+    --footer-bottom-offset: max(calc(var(--page-padding) - 0.5rem), env(safe-area-inset-bottom));
+
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: min(100%, 50rem);
+    margin-block-start: auto;
+    margin-inline: auto;
+    padding-block-start: var(--page-padding);
+    padding-block-end: calc(var(--footer-bottom-offset) + 0.375rem);
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    text-align: center;
+  }
+
+  footer[data-has-filing] {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-block-end: max(env(safe-area-inset-bottom), calc(var(--footer-bottom-offset) - 1rem));
+    text-align: start;
+  }
+
+  footer a {
+    color: inherit;
+    text-decoration-color: var(--color-border);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  footer a:hover {
+    text-decoration-color: currentColor;
+  }
+</style>

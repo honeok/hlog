@@ -1,0 +1,32 @@
+# editors and ides
+.idea/
+.devcontainer/
+.vscode/
+*.code-workspace
+*.swp
+*.swo
+*~
+
+# agents
+.agents/
+.codex/
+.codex-workflows/
+
+# system files
+.DS_Store
+
+# build output
+.astro/
+.pnpm-store/
+.wrangler/
+dist/
+
+# dependencies
+node_modules/
+
+# logs
+*.log*
+
+# environment variables
+.env
+.env.production

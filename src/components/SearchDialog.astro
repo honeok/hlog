@@ -1,0 +1,145 @@
+<dialog id="search-dialog" data-search-dialog aria-label="搜索文章">
+  <form data-search-form>
+    <input type="search" data-search-input placeholder="搜索文章" autocomplete="off" aria-label="搜索文章" />
+    <div class="search-results" data-search-results aria-live="polite" hidden></div>
+  </form>
+</dialog>
+
+<script>
+  type SearchItem = { title: string; href: string };
+  type SearchData = { posts: SearchItem[] };
+
+  const dialog = document.querySelector<HTMLDialogElement>("[data-search-dialog]");
+  const form = dialog?.querySelector<HTMLFormElement>("[data-search-form]");
+  const input = dialog?.querySelector<HTMLInputElement>("[data-search-input]");
+  const results = dialog?.querySelector<HTMLElement>("[data-search-results]");
+  let items: SearchItem[] | undefined;
+
+  const loadItems = async () => {
+    const response = await fetch("/posts.json");
+    if (!response.ok) throw new Error("Failed to load search index");
+    const data: SearchData = await response.json();
+    items = data.posts;
+    render();
+  };
+
+  const render = () => {
+    if (!input || !results) return;
+    const terms = input.value.toLocaleLowerCase("zh-CN").trim().split(/\s+/).filter(Boolean);
+    const searchItems = items;
+
+    results.replaceChildren();
+    results.hidden = terms.length === 0 || !searchItems;
+    if (!terms.length || !searchItems) return;
+
+    const matches = searchItems
+      .filter(({ title }) => {
+        const normalizedTitle = title.toLocaleLowerCase("zh-CN");
+        return terms.every((term) => normalizedTitle.includes(term));
+      })
+      .slice(0, 8);
+    const content = document.createDocumentFragment();
+
+    for (const { title, href } of matches) {
+      const link = document.createElement("a");
+      link.href = href;
+      link.textContent = title;
+      content.append(link);
+    }
+
+    if (!matches.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "没有匹配的文章";
+      content.append(empty);
+    }
+
+    results.append(content);
+  };
+
+  document.querySelector("[data-search-trigger]")?.addEventListener("click", () => {
+    dialog?.showModal();
+    requestAnimationFrame(() => input?.focus());
+    if (!items) void loadItems();
+  });
+  input?.addEventListener("input", render);
+  input?.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    event.preventDefault();
+    dialog?.close();
+  });
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    results?.querySelector<HTMLAnchorElement>("a")?.click();
+  });
+  dialog?.addEventListener("click", ({ target }) => target === dialog && dialog.close());
+  dialog?.addEventListener("close", () => {
+    if (input) input.value = "";
+    render();
+  });
+</script>
+
+<style>
+  dialog {
+    inline-size: min(32rem, calc(100% - 2rem));
+    max-inline-size: none;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    background: var(--color-background);
+    color: var(--color-text);
+    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 18%);
+    overflow: hidden;
+  }
+
+  dialog::backdrop {
+    background: rgb(0 0 0 / 28%);
+    backdrop-filter: blur(4px);
+  }
+
+  form {
+    margin: 0;
+  }
+
+  input {
+    inline-size: 100%;
+    padding: 1rem 1.125rem;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--color-text-strong);
+    font: inherit;
+  }
+
+  input::placeholder {
+    color: var(--color-text-faint);
+  }
+
+  .search-results {
+    max-block-size: min(22rem, 50vh);
+    padding: 0.375rem;
+    border-block-start: 1px solid var(--color-border);
+    overflow-y: auto;
+  }
+
+  .search-results > :global(a) {
+    display: block;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.375rem;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .search-results > :global(a:hover),
+  .search-results > :global(a:focus-visible) {
+    background: var(--color-surface);
+    color: var(--color-text-strong);
+    outline: 0;
+  }
+
+  .search-results > :global(p) {
+    margin: 0;
+    padding: 0.75rem;
+    color: var(--color-text-faint);
+    text-align: center;
+  }
+</style>

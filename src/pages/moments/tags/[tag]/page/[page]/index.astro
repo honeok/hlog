@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+import MomentList from "@components/MomentList.astro";
+import Pagination from "@components/Pagination.astro";
+import SiteLayout from "@layouts/SiteLayout.astro";
+import { getPublishedMoments } from "@lib/moments";
+import { MOMENTS_PER_PAGE } from "../../../../../../config";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const moments = await getPublishedMoments();
+  const tags = [...new Set(moments.flatMap(({ data }) => data.tags))];
+
+  return tags.flatMap((tag) =>
+    paginate(
+      moments.filter(({ data }) => data.tags.includes(tag)),
+      {
+        pageSize: MOMENTS_PER_PAGE,
+        params: { tag },
+        props: { tag },
+      },
+    ).filter(({ props }) => props.page.currentPage > 1),
+  );
+}) satisfies GetStaticPaths;
+
+type Props = {
+  tag: string;
+  page: Page<CollectionEntry<"moments">>;
+};
+
+const { tag, page } = Astro.props;
+const tagHref = `/moments/tags/${encodeURIComponent(tag)}`;
+const prev = page.currentPage === 2 ? tagHref : page.url.prev;
+---
+
+<SiteLayout title={`瞬间 · ${tag} · 第 ${page.currentPage} 页`} description={`标签「${tag}」下的瞬间。`}>
+  <h1 class="page-title">#{tag}</h1>
+  <MomentList entries={page.data} />
+  <Pagination currentPage={page.currentPage} lastPage={page.lastPage} {prev} next={page.url.next} />
+</SiteLayout>

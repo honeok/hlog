@@ -1,0 +1,57 @@
+---
+type Props = {
+  currentPage: number;
+  lastPage: number;
+  prev?: string;
+  next?: string;
+};
+
+const { currentPage, lastPage, prev, next } = Astro.props;
+---
+
+<nav aria-label="分页导航">
+  <ul>
+    <li>{prev && <a href={prev}>{"< Prev"}</a>}</li>
+    <li aria-current="page">{currentPage} of {lastPage}</li>
+    <li>{next && <a href={next}>{"Next >"}</a>}</li>
+  </ul>
+</nav>
+
+<style>
+  nav {
+    margin-block-start: 3.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li:first-child {
+    text-align: start;
+  }
+
+  [aria-current="page"] {
+    color: var(--color-text-faint);
+    text-align: center;
+  }
+
+  li:last-child {
+    text-align: end;
+  }
+
+  a {
+    color: var(--color-text-strong);
+    text-decoration: none;
+  }
+
+  a:is(:hover, :focus-visible) {
+    text-decoration: underline;
+  }
+</style>

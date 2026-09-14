@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Pagination from "@components/Pagination.astro";
+import PostList from "@components/PostList.astro";
+import SiteLayout from "@layouts/SiteLayout.astro";
+import { getPublishedPosts } from "@lib/posts";
+import { POSTS_PER_PAGE } from "../../../config";
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  const tags = [...new Set(posts.flatMap(({ data }) => data.tags))];
+
+  // 标签过滤是页面专属逻辑, 这里只复用公开文章和默认排序规则
+  return tags.map((tag) => {
+    const taggedPosts = posts.filter(({ data }) => data.tags.includes(tag));
+
+    return {
+      params: { tag },
+      props: {
+        tag,
+        posts: taggedPosts.slice(0, POSTS_PER_PAGE),
+        lastPage: Math.ceil(taggedPosts.length / POSTS_PER_PAGE),
+      },
+    };
+  });
+}
+
+type Props = {
+  tag: string;
+  posts: CollectionEntry<"posts">[];
+  lastPage: number;
+};
+
+const { tag, posts, lastPage } = Astro.props;
+---
+
+<SiteLayout title={tag} description={`标签「${tag}」下的博客文章。`}>
+  <h1 class="page-title">{tag}</h1>
+  <PostList entries={posts} />
+  {lastPage > 1 && <Pagination currentPage={1} {lastPage} next={`/tags/${encodeURIComponent(tag)}/page/2`} />}
+</SiteLayout>

@@ -1,0 +1,91 @@
+/* Inline code styling; fenced code remains owned by Astro Shiki. */
+prose-content :where(code, .astro-code, .code-block) {
+  font-family: var(--font-mono);
+}
+
+prose-content :where(code):not(:where(pre code)) {
+  padding: 0.125rem 0.25rem;
+  border: 0;
+  border-radius: 0.25rem;
+  background: var(--color-code-bg);
+  color: var(--color-code-fg);
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: none;
+}
+
+/* Code block copy interaction */
+prose-content .code-block {
+  position: relative;
+  inline-size: 100%;
+  margin-block: 1.5rem;
+}
+
+prose-content .code-block > pre {
+  margin: 0;
+  padding-block: 0.75rem;
+  padding-inline: 0.75rem;
+  background-color: var(--color-code-block-bg) !important;
+  font-size: 0.825rem; /* 13.2px */
+  line-height: 1.2rem; /* 19.2px */
+}
+
+prose-content .code-block > button {
+  position: absolute;
+  inset-block-start: 0.5rem;
+  inset-inline-end: 0.5rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2rem;
+  block-size: 2rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  background: var(--color-background);
+  color: var(--color-text-faint);
+  cursor: pointer;
+  box-shadow: none;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: 150ms ease-out;
+}
+
+prose-content .code-block:hover > button,
+prose-content .code-block > button:focus-visible,
+prose-content .code-block > button[data-copy-state="copied"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+prose-content .code-block > button:hover {
+  color: var(--color-text-strong);
+}
+
+prose-content .code-block > button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+prose-content .code-block > button svg {
+  display: block;
+}
+
+/* Astro Shiki light/dark theme bridge */
+:root[data-theme="dark"] :where(.astro-code, .astro-code span) {
+  background-color: var(--color-code-block-bg) !important;
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+@media (hover: none) {
+  prose-content .code-block > button {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

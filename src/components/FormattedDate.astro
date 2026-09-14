@@ -1,0 +1,27 @@
+---
+import { CONTENT_TIME_ZONE } from "../config";
+
+type Props = {
+  date: Date;
+  showTime?: boolean;
+};
+
+const { date, showTime = false } = Astro.props;
+const iso = date.toISOString();
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "2-digit",
+  timeZone: CONTENT_TIME_ZONE,
+});
+const timeFormatter = new Intl.DateTimeFormat("en-US", {
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+  timeZone: CONTENT_TIME_ZONE,
+});
+const dateLabel = dateFormatter.format(date);
+const label = showTime ? `${dateLabel} ${timeFormatter.format(date)}` : dateLabel;
+---
+
+<time datetime={iso}>{label}</time>

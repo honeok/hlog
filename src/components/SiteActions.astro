@@ -1,0 +1,201 @@
+---
+import Moon from "@lucide/astro/icons/moon";
+import Rss from "@lucide/astro/icons/rss";
+import Search from "@lucide/astro/icons/search";
+import Sun from "@lucide/astro/icons/sun";
+---
+
+<div class="site-actions">
+  <button
+    class="icon-button icon-button--compact"
+    type="button"
+    aria-label="搜索文章"
+    aria-haspopup="dialog"
+    aria-controls="search-dialog"
+    data-search-trigger
+    data-tooltip="搜索文章"
+  >
+    <Search class="icon" />
+  </button>
+  <a class="icon-button icon-button--compact" href="/rss.xml" aria-label="RSS 订阅" data-tooltip="RSS 订阅">
+    <Rss class="icon" />
+  </a>
+  <button
+    class="icon-button theme-toggle"
+    type="button"
+    aria-label="浅色模式"
+    aria-pressed="false"
+    data-theme-toggle
+    data-tooltip="浅色模式"
+  >
+    <Moon class="icon" data-theme-icon="dark" />
+    <Sun class="icon" data-theme-icon="light" />
+  </button>
+</div>
+
+<script>
+  import "../scripts/theme";
+</script>
+
+<style>
+  .site-actions {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: flex-end;
+    margin-inline-start: auto;
+    gap: 0.9375rem;
+  }
+
+  .icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: auto;
+    block-size: 2.125rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .icon-button:hover {
+    color: var(--color-text-strong);
+  }
+
+  .icon-button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  .icon-button .icon {
+    display: block;
+    inline-size: var(--icon-size, 1.125rem);
+    block-size: var(--icon-size, 1.125rem);
+    transition: transform 250ms ease;
+  }
+
+  .icon-button--compact {
+    --icon-size: 1rem;
+  }
+
+  .icon-button:hover .icon {
+    transform: scale(1.06);
+  }
+
+  .theme-toggle {
+    position: relative;
+    inline-size: var(--icon-size, 1.125rem);
+  }
+
+  .theme-toggle .icon {
+    position: absolute;
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.75);
+    transition:
+      opacity 180ms ease-out,
+      transform 280ms ease-out;
+  }
+
+  .theme-toggle [data-theme-icon="light"] {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+
+  :global(:root[data-theme="dark"]) .theme-toggle [data-theme-icon="dark"] {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+
+  :global(:root[data-theme="dark"]) .theme-toggle [data-theme-icon="light"] {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.75);
+  }
+
+  :global(:root:not([data-theme="dark"])) .theme-toggle:is(:hover, :focus-visible) [data-theme-icon="light"],
+  :global(:root[data-theme="dark"]) .theme-toggle:is(:hover, :focus-visible) [data-theme-icon="dark"] {
+    transform: rotate(20deg) scale(1.06);
+  }
+
+  .theme-toggle:active .icon {
+    transform: rotate(90deg) scale(0.85);
+  }
+
+  .site-actions .icon-button[data-tooltip] {
+    position: relative;
+  }
+
+  .site-actions .icon-button[data-tooltip]::after {
+    position: absolute;
+    inset-block-start: calc(100% + 0.5rem);
+    inset-inline-start: 50%;
+    z-index: 5;
+    padding: 0.375rem 0.625rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: var(--color-surface);
+    color: var(--color-text-strong);
+    content: attr(data-tooltip);
+    font-size: 0.75rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 0.25rem);
+    transition:
+      opacity 150ms ease,
+      transform 150ms ease;
+    white-space: nowrap;
+  }
+
+  .site-actions .icon-button[data-tooltip]::before {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 50%;
+    z-index: 4;
+    border: 0.375rem solid transparent;
+    border-bottom-color: var(--color-surface);
+    content: "";
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 0.125rem);
+    transition:
+      opacity 150ms ease,
+      transform 150ms ease;
+  }
+
+  .site-actions .icon-button[data-tooltip]:is(:hover, :focus-visible)::after,
+  .site-actions .icon-button[data-tooltip]:is(:hover, :focus-visible)::before {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .site-actions .icon-button:last-child[data-tooltip]::after {
+    inset-inline: auto 0;
+    transform: translateY(0.25rem);
+  }
+
+  .site-actions .icon-button:last-child[data-tooltip]:is(:hover, :focus-visible)::after {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 26.249rem) {
+    .site-actions .icon-button {
+      block-size: 2.25rem;
+    }
+  }
+
+  @media (hover: none) {
+    .icon-button:hover {
+      color: var(--color-text-muted);
+    }
+
+    .site-actions .icon-button[data-tooltip]::before,
+    .site-actions .icon-button[data-tooltip]::after {
+      display: none;
+    }
+  }
+</style>
