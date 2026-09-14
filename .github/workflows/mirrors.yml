@@ -1,0 +1,45 @@
+---
+name: "Repository mirrors"
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  mirror:
+    name: "Mirror to ${{ matrix.name }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: codeberg
+            host: codeberg.org
+          - name: framagit
+            host: framagit.org
+          - name: gitea
+            host: gitea.com
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: "Mirror to ${{ matrix.name }}"
+        uses: yesolutions/mirror-action@master
+        with:
+          REMOTE: git@${{ matrix.host }}:${{ github.repository }}.git
+          GIT_SSH_PRIVATE_KEY: ${{ secrets.SYNC_PRIVATE_KEY }}
+          GIT_SSH_NO_VERIFY_HOST: true
+          PUSH_ALL_REFS: false
+          GIT_PUSH_ARGS: "--force --prune"
