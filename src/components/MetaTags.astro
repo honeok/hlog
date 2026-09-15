@@ -1,0 +1,39 @@
+---
+type Props = {
+  tags: string[];
+  hrefPrefix: string;
+  hideSeparator?: boolean;
+};
+
+const { tags, hrefPrefix, hideSeparator = false } = Astro.props;
+---
+
+{
+  tags.length > 0 && (
+    <span>
+      {" "}
+      <span class:list={{ "separator--hidden": hideSeparator }} aria-hidden={hideSeparator ? "true" : undefined}>
+        ·
+      </span>
+      {tags.map((tag) => (
+        <a href={`${hrefPrefix}/${encodeURIComponent(tag)}`}> #{tag}</a>
+      ))}
+    </span>
+  )
+}
+
+<style>
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: var(--color-text);
+  }
+
+  .separator--hidden {
+    opacity: 0;
+  }
+</style>
