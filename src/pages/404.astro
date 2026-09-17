@@ -1,5 +1,6 @@
 ---
 // Adapted from: https://github.com/honeok/config/blob/main/webserver/html/404.html
+import { Font } from "astro:assets";
 import Head from "@components/Head.astro";
 import SiteFooter from "@components/SiteFooter.astro";
 import { SITE } from "../config";
@@ -10,10 +11,13 @@ import "../styles/global.css";
 <html lang={SITE.lang}>
   <head>
     <Head title="404 Not Found" description="The requested page could not be found." />
+    <!-- 404 使用和全站一致的字体 -->
+    <Font cssVariable="--font-serif" preload={[{ subset: "latin", style: "normal", weight: "200 900" }]} />
     <meta name="robots" content="noindex" />
   </head>
   <body>
-    <main aria-labelledby="not-found-title">
+    <!-- 404 使用全站统一宽度, 小屏左右留 16px, 大屏最大 800px 并居中 -->
+    <main class="page-container" aria-labelledby="not-found-title">
       <div class="robot" aria-hidden="true">
         <svg viewBox="0 0 100 100">
           <rect x="35" y="50" width="30" height="40" rx="5" class="robot-body"></rect>
@@ -42,13 +46,19 @@ import "../styles/global.css";
 <style>
   body {
     inline-size: 100%;
-    padding: clamp(1rem, 4vw, 2rem);
-    padding-block-end: 0;
+    /* 404 页面顶部预留 16px, 768px 起预留 32px */
+    padding-block-start: 1rem;
     align-items: stretch;
     background: var(--color-background);
     color: var(--color-text-strong);
-    font-family: "Microsoft YaHei", Arial, sans-serif;
     text-align: center;
+  }
+
+  /* 768px 起, 404 到页面顶边留 32px */
+  @media (min-width: 48rem) {
+    body {
+      padding-block-start: 2rem;
+    }
   }
 
   main {
@@ -58,7 +68,6 @@ import "../styles/global.css";
     align-items: center;
     align-self: center;
     justify-content: center;
-    inline-size: min(100%, 40rem);
   }
 
   .robot {

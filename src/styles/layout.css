@@ -1,33 +1,34 @@
-:root {
-  --page-padding: 1.5rem;
-}
-
 html {
   scrollbar-gutter: stable;
 }
 
+/* 页面使用纵向布局, 最小高度始终撑满整个视口 */
 body {
   display: flex;
   flex-direction: column;
   min-block-size: 100vh;
   min-block-size: 100dvh;
-  padding: var(--page-padding);
-  padding-block-end: 0;
 }
 
-.site-shell {
-  display: flex;
-  flex-direction: column;
-  inline-size: 100%;
-  max-inline-size: 50rem;
+/* 全站统一宽度, 小屏左右留 16px, 大屏最多 800px 并居中 */
+.page-container {
+  inline-size: min(calc(100% - 2rem), 50rem);
   margin-inline: auto;
 }
 
+/* 页面主体只负责上下排列, 宽度交给 page-container */
+.site-shell {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 正文始终占满可用宽度, 超长内容也不能把页面撑宽 */
 .site-shell > main {
   inline-size: 100%;
   min-inline-size: 0;
 }
 
+/* 页面标题统一样式 */
 .page-title {
   margin-block: 0 1.75rem;
   color: var(--color-text-strong);
@@ -35,10 +36,12 @@ body {
   font-weight: 620;
 }
 
+/* 默认不显示顶部渐隐层 */
 .top-fade {
   display: none;
 }
 
+/* 小屏显示顶部渐隐层, 让页面顶部过渡更自然 */
 @media (max-width: 39.999rem) {
   .top-fade {
     position: fixed;
@@ -50,17 +53,5 @@ body {
     block-size: 1.5rem;
     pointer-events: none;
     background: linear-gradient(to bottom, var(--color-background), transparent);
-  }
-}
-
-@media (min-width: 40rem) {
-  :root {
-    --page-padding: 2.5rem;
-  }
-}
-
-@media (min-width: 48rem) {
-  :root {
-    --page-padding: 3.5rem;
   }
 }

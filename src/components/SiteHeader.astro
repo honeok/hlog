@@ -107,11 +107,12 @@ import { NAV_ITEMS, SITE } from "../config";
 </script>
 
 <style>
+  /* 顶部导航到页面顶边小屏留 16px, 768px 起留 32px, 导航到正文留 48px */
   header {
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    margin-block: calc(1rem - var(--page-padding)) 3rem;
+    margin-block: 1rem 3rem;
   }
 
   header > a {
@@ -232,9 +233,10 @@ import { NAV_ITEMS, SITE } from "../config";
     }
   }
 
+  /* 768px 起, 顶部导航距离页面顶边 32px */
   @media (min-width: 48rem) {
     header {
-      margin-block-start: calc(2rem - var(--page-padding));
+      margin-block-start: 2rem;
     }
   }
 </style>

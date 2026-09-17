@@ -33,7 +33,8 @@ const { title, description, type, publishedTime, modifiedTime } = Astro.props;
   </head>
   <body>
     <div class="top-fade" aria-hidden="true"></div>
-    <div class="site-shell">
+    <!-- 顶部导航和正文使用全站统一宽度, 小屏左右留 16px, 大屏最大 800px 并居中 -->
+    <div class="site-shell page-container">
       <SiteHeader />
       <main id="main-content">
         <slot />
