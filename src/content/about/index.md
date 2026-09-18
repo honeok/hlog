@@ -1,10 +1,11 @@
-<p style="text-align:center;">
-  <img src="https://fastly.jsdelivr.net/gh/honeokX/homepage@75927f911ccbc6d0aded1aba871a1b87a0fe40cd/public/avatar.png" style="width:50%;">
+<p style="display:flex; align-items:center; gap:1%;">
+  <img src="https://fastly.jsdelivr.net/gh/honeok/homepage@082cd1cd99c08fc0cef2b682d4cb7437fe4322f3/public/me.png" style="width:49.5%; aspect-ratio:3/2; object-fit:cover;">
+  <img src="https://img.meituan.net/csc/4a9b0f77d140fc6c125d5c924008447d2657804.png" style="width:49.5%; aspect-ratio:3/2; object-fit:cover;">
 </p>
 
 ## 我
 
-世纪末的 90 后，云原生信徒，极简主义者。
+世纪末的 90 后，云原生信徒，极简主义者，骑车进过藏。
 
 对新鲜事物保持好奇，对复杂事物保持克制。
 
@@ -14,4 +15,7 @@
 
 域名 `honeok.com` 源于名字的拆解与转写，`h` 取自姓氏首字母，`one` 与 `ok` 分别由名字延伸而来。
 
-网站基于 Astro 构建，部署于 Cloudflare Workers。
+网站基于 [Astro][1] 构建，部署于 [Cloudflare][2] Workers。
+
+[1]: https://astro.build
+[2]: https://www.cloudflare.com
