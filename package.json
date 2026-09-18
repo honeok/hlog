@@ -16,7 +16,7 @@
     "@lucide/astro": "^1.46.0",
     "astro": "^7.3.2",
     "medium-zoom-next": "^2.0.1",
-    "reading-time": "^1.5.0",
+    "reading-time-estimator": "^2.15.0",
     "satteri": "^0.10.5",
     "sharp": "^0.35.4"
   },
