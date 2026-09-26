@@ -7,6 +7,8 @@ draft: false
 
 GTA V 不知道什么时候多了[增强版][1]，原来我已经太久没回到故乡 😭
 
-![](https://cdn.skyimg.net/up/2026/9/26/e57e1c98.webp)
+<p style="text-align:center;">
+  <img src="https://cdn.skyimg.net/up/2026/9/26/e57e1c98.webp">
+</p>
 
 [1]: https://www.rockstargames.com/tw/newswire/article/7551a7k917554a/free-upgrade-for-grand-theft-auto-v-on-pc-now-available
