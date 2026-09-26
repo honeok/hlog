@@ -1,40 +1,40 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { getCollection, render } from "astro:content";
-import PostLayout from "@layouts/PostLayout.astro";
-import { isPublished } from "@lib/publication";
-import { byDateDesc } from "@lib/posts";
+import type { CollectionEntry } from 'astro:content'
+import { getCollection, render } from 'astro:content'
+import PostLayout from '@layouts/PostLayout.astro'
+import { isPublished } from '@lib/publication'
+import { byDateDesc } from '@lib/posts'
 
 export async function getStaticPaths() {
   // 详情页必须读取包含 draft 的全部文章, 确保重复 ID 校验覆盖完整集合
-  const posts = await getCollection("posts");
-  const postIds = new Map<number, string>();
+  const posts = await getCollection('posts')
+  const postIds = new Map<number, string>()
 
   for (const post of posts) {
-    const duplicate = postIds.get(post.data.id);
+    const duplicate = postIds.get(post.data.id)
 
     if (duplicate) {
-      throw new Error(`Duplicate post id ${post.data.id}: ${duplicate} and ${post.id}`);
+      throw new Error(`Duplicate post id ${post.data.id}: ${duplicate} and ${post.id}`)
     }
 
-    postIds.set(post.data.id, post.id);
+    postIds.set(post.data.id, post.id)
   }
 
-  const publishedPosts = posts.filter((post) => isPublished(post)).sort(byDateDesc);
+  const publishedPosts = posts.filter((post) => isPublished(post)).sort(byDateDesc)
 
   return publishedPosts.map((post, index) => ({
     params: { id: String(post.data.id) },
     props: { post, nextPost: publishedPosts[index + 1] },
-  }));
+  }))
 }
 
 type Props = {
-  post: CollectionEntry<"posts">;
-  nextPost?: CollectionEntry<"posts">;
-};
+  post: CollectionEntry<'posts'>
+  nextPost?: CollectionEntry<'posts'>
+}
 
-const { post, nextPost } = Astro.props;
-const { Content, remarkPluginFrontmatter } = await render(post);
+const { post, nextPost } = Astro.props
+const { Content, remarkPluginFrontmatter } = await render(post)
 ---
 
 <PostLayout

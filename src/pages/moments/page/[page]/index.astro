@@ -1,22 +1,22 @@
 ---
-import type { GetStaticPaths, Page } from "astro";
-import type { CollectionEntry } from "astro:content";
-import MomentList from "@components/MomentList.astro";
-import Pagination from "@components/Pagination.astro";
-import SiteLayout from "@layouts/SiteLayout.astro";
-import { getPublishedMoments } from "@lib/moments";
-import { MOMENTS_PER_PAGE } from "../../../../config";
+import type { GetStaticPaths, Page } from 'astro'
+import type { CollectionEntry } from 'astro:content'
+import MomentList from '@components/MomentList.astro'
+import Pagination from '@components/Pagination.astro'
+import SiteLayout from '@layouts/SiteLayout.astro'
+import { getPublishedMoments } from '@lib/moments'
+import { MOMENTS_PER_PAGE } from '../../../../config'
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const moments = await getPublishedMoments();
+  const moments = await getPublishedMoments()
 
-  return paginate(moments, { pageSize: MOMENTS_PER_PAGE }).filter(({ props }) => props.page.currentPage > 1);
-}) satisfies GetStaticPaths;
+  return paginate(moments, { pageSize: MOMENTS_PER_PAGE }).filter(({ props }) => props.page.currentPage > 1)
+}) satisfies GetStaticPaths
 
-type Props = { page: Page<CollectionEntry<"moments">> };
+type Props = { page: Page<CollectionEntry<'moments'>> }
 
-const { page } = Astro.props;
-const prev = page.currentPage === 2 ? "/moments" : page.url.prev;
+const { page } = Astro.props
+const prev = page.currentPage === 2 ? '/moments' : page.url.prev
 ---
 
 <SiteLayout title={`瞬间 · 第 ${page.currentPage} 页`} description="随手记录的片刻与想法。">

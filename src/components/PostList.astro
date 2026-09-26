@@ -1,14 +1,14 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { getPostHref } from "@lib/posts";
-import FormattedDate from "./FormattedDate.astro";
+import type { CollectionEntry } from 'astro:content'
+import { getPostHref } from '@lib/posts'
+import FormattedDate from './FormattedDate.astro'
 
 // 列表中的文章链接统一使用永久链接规则, 避免组件自行拼接 URL
 type Props = {
-  entries: CollectionEntry<"posts">[];
-};
+  entries: CollectionEntry<'posts'>[]
+}
 
-const { entries } = Astro.props;
+const { entries } = Astro.props
 ---
 
 <ul class="entry-list">

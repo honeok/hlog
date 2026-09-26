@@ -3,7 +3,7 @@
   margin-block: 2rem;
 }
 
-.video-player[data-video-kind="embed"] {
+.video-player[data-video-kind='embed'] {
   aspect-ratio: 16 / 9;
 }
 

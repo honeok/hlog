@@ -1,14 +1,14 @@
 ---
-import { FILING, SITE } from "../config";
+import { FILING, SITE } from '../config'
 
-const year = new Date().getFullYear();
-const filingParts = FILING?.label.split(/(\d+)/) ?? [];
-const filingHref = FILING?.href ?? "";
+const year = new Date().getFullYear()
+const filingParts = FILING?.label.split(/(\d+)/) ?? []
+const filingHref = FILING?.href ?? ''
 ---
 
-<footer class="page-container" data-has-filing={FILING ? "" : undefined}>
+<footer class="page-container" data-has-filing={FILING ? '' : undefined}>
   <span>
-    © {year}{" "}{SITE.author} · <a
+    © {year}{' '}{SITE.author} · <a
       href="https://creativecommons.org/licenses/by-nc-sa/4.0"
       target="_blank"
       rel="license noopener">CC BY-NC-SA 4.0</a

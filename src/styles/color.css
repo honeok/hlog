@@ -14,7 +14,7 @@
   color-scheme: light;
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   --color-background: #1a1a1a;
   --color-surface: #222;
   --color-text-strong: #e5e5e5;

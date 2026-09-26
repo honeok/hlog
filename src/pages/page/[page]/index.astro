@@ -1,23 +1,23 @@
 ---
-import type { GetStaticPaths, Page } from "astro";
-import type { CollectionEntry } from "astro:content";
-import Pagination from "@components/Pagination.astro";
-import PostList from "@components/PostList.astro";
-import SiteLayout from "@layouts/SiteLayout.astro";
-import { getPublishedPosts } from "@lib/posts";
-import { POSTS_PER_PAGE } from "../../../config";
+import type { GetStaticPaths, Page } from 'astro'
+import type { CollectionEntry } from 'astro:content'
+import Pagination from '@components/Pagination.astro'
+import PostList from '@components/PostList.astro'
+import SiteLayout from '@layouts/SiteLayout.astro'
+import { getPublishedPosts } from '@lib/posts'
+import { POSTS_PER_PAGE } from '../../../config'
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const posts = await getPublishedPosts();
+  const posts = await getPublishedPosts()
 
   // 分页数量属于列表展示配置, 不限制共享查询返回的文章范围
-  return paginate(posts, { pageSize: POSTS_PER_PAGE }).filter(({ props }) => props.page.currentPage > 1);
-}) satisfies GetStaticPaths;
+  return paginate(posts, { pageSize: POSTS_PER_PAGE }).filter(({ props }) => props.page.currentPage > 1)
+}) satisfies GetStaticPaths
 
-type Props = { page: Page<CollectionEntry<"posts">> };
+type Props = { page: Page<CollectionEntry<'posts'>> }
 
-const { page } = Astro.props;
-const prev = page.currentPage === 2 ? "/" : page.url.prev;
+const { page } = Astro.props
+const prev = page.currentPage === 2 ? '/' : page.url.prev
 ---
 
 <SiteLayout title={`第 ${page.currentPage} 页`}>

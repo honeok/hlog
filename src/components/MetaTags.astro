@@ -1,18 +1,18 @@
 ---
 type Props = {
-  tags: string[];
-  hrefPrefix: string;
-  hideSeparator?: boolean;
-};
+  tags: string[]
+  hrefPrefix: string
+  hideSeparator?: boolean
+}
 
-const { tags, hrefPrefix, hideSeparator = false } = Astro.props;
+const { tags, hrefPrefix, hideSeparator = false } = Astro.props
 ---
 
 {
   tags.length > 0 && (
     <span>
-      {" "}
-      <span class:list={{ "separator--hidden": hideSeparator }} aria-hidden={hideSeparator ? "true" : undefined}>
+      {' '}
+      <span class:list={{ 'separator--hidden': hideSeparator }} aria-hidden={hideSeparator ? 'true' : undefined}>
         ·
       </span>
       {tags.map((tag) => (

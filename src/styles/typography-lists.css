@@ -10,19 +10,19 @@ prose-content :where(ol) {
   list-style-type: decimal;
 }
 
-prose-content :where(ol[type="A"]) {
+prose-content :where(ol[type='A']) {
   list-style-type: upper-alpha;
 }
 
-prose-content :where(ol[type="a"]) {
+prose-content :where(ol[type='a']) {
   list-style-type: lower-alpha;
 }
 
-prose-content :where(ol[type="I"]) {
+prose-content :where(ol[type='I']) {
   list-style-type: upper-roman;
 }
 
-prose-content :where(ol[type="i"]) {
+prose-content :where(ol[type='i']) {
   list-style-type: lower-roman;
 }
 
@@ -52,7 +52,7 @@ prose-content :where(li.task-list-item) {
   padding-inline-start: 0;
 }
 
-prose-content :where(li.task-list-item > input[type="checkbox"]) {
+prose-content :where(li.task-list-item > input[type='checkbox']) {
   margin-inline-end: 0.5em;
   accent-color: var(--color-text-strong);
 }

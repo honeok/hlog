@@ -1,21 +1,21 @@
 ---
-import { Font } from "astro:assets";
-import Head from "@components/Head.astro";
-import SearchDialog from "@components/SearchDialog.astro";
-import SiteHeader from "@components/SiteHeader.astro";
-import SiteFooter from "@components/SiteFooter.astro";
-import { SITE } from "../config";
-import "../styles/global.css";
+import { Font } from 'astro:assets'
+import Head from '@components/Head.astro'
+import SearchDialog from '@components/SearchDialog.astro'
+import SiteHeader from '@components/SiteHeader.astro'
+import SiteFooter from '@components/SiteFooter.astro'
+import { SITE } from '../config'
+import '../styles/global.css'
 
 type Props = {
-  title?: string;
-  description?: string;
-  type?: "website" | "article";
-  publishedTime?: Date;
-  modifiedTime?: Date;
-};
+  title?: string
+  description?: string
+  type?: 'website' | 'article'
+  publishedTime?: Date
+  modifiedTime?: Date
+}
 
-const { title, description, type, publishedTime, modifiedTime } = Astro.props;
+const { title, description, type, publishedTime, modifiedTime } = Astro.props
 ---
 
 <!doctype html>
@@ -28,8 +28,8 @@ const { title, description, type, publishedTime, modifiedTime } = Astro.props;
       publishedTime={publishedTime}
       modifiedTime={modifiedTime}
     />
-    <Font cssVariable="--font-serif" preload={[{ subset: "latin", style: "normal", weight: "200 900" }]} />
-    <Font cssVariable="--font-mono" preload={[{ subset: "latin", style: "normal", weight: "100 800" }]} />
+    <Font cssVariable="--font-serif" preload={[{ subset: 'latin', style: 'normal', weight: '200 900' }]} />
+    <Font cssVariable="--font-mono" preload={[{ subset: 'latin', style: 'normal', weight: '100 800' }]} />
   </head>
   <body>
     <div class="top-fade" aria-hidden="true"></div>
@@ -46,15 +46,15 @@ const { title, description, type, publishedTime, modifiedTime } = Astro.props;
 </html>
 
 <script>
-  import mediumZoom from "medium-zoom-next";
-  import "medium-zoom-next/dist/style.css";
+  import mediumZoom from 'medium-zoom-next'
+  import 'medium-zoom-next/dist/style.css'
 
-  mediumZoom("#main-content img", {
+  mediumZoom('#main-content img', {
     // 图片放大后与浏览器窗口边缘保留 24px 间距
     margin: 24,
 
     // @ts-expect-error Keep the required background option despite the package's narrower types.
     // 背景遮罩跟随当前主题颜色
-    background: "color-mix(in srgb, var(--color-background) 96%, transparent)",
-  });
+    background: 'color-mix(in srgb, var(--color-background) 96%, transparent)',
+  })
 </script>

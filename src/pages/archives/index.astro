@@ -1,47 +1,47 @@
 ---
-import { render } from "astro:content";
-import SiteLayout from "@layouts/SiteLayout.astro";
-import { getPostHref, getPublishedPosts } from "@lib/posts";
-import { CONTENT_TIME_ZONE } from "../../config";
+import { render } from 'astro:content'
+import SiteLayout from '@layouts/SiteLayout.astro'
+import { getPostHref, getPublishedPosts } from '@lib/posts'
+import { CONTENT_TIME_ZONE } from '../../config'
 
 // 归档仅复用全站文章规则, 年份分组和字数统计仍由本页面负责
-const posts = await getPublishedPosts();
+const posts = await getPublishedPosts()
 const archiveEntries = await Promise.all(
   posts.map(async (post) => {
-    const { remarkPluginFrontmatter } = await render(post);
+    const { remarkPluginFrontmatter } = await render(post)
 
-    return { post, words: remarkPluginFrontmatter.readingTime.words };
+    return { post, words: remarkPluginFrontmatter.readingTime.words }
   }),
-);
-const totalWords = archiveEntries.reduce((total, { words }) => total + words, 0);
-const postsByYear = new Map<number, typeof archiveEntries>();
-const yearFormatter = new Intl.DateTimeFormat("en-US", {
-  year: "numeric",
+)
+const totalWords = archiveEntries.reduce((total, { words }) => total + words, 0)
+const postsByYear = new Map<number, typeof archiveEntries>()
+const yearFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
   timeZone: CONTENT_TIME_ZONE,
-});
+})
 
 for (const entry of archiveEntries) {
-  const year = Number(yearFormatter.format(entry.post.data.date));
-  const entries = postsByYear.get(year);
+  const year = Number(yearFormatter.format(entry.post.data.date))
+  const entries = postsByYear.get(year)
 
   if (entries) {
-    entries.push(entry);
+    entries.push(entry)
   } else {
-    postsByYear.set(year, [entry]);
+    postsByYear.set(year, [entry])
   }
 }
 
-const years = [...postsByYear].sort(([a], [b]) => b - a);
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "2-digit",
+const years = [...postsByYear].sort(([a], [b]) => b - a)
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: '2-digit',
   timeZone: CONTENT_TIME_ZONE,
-});
+})
 ---
 
 <SiteLayout title="归档" description="博客文章归档。">
   <h1 class="visually-hidden">归档</h1>
-  <p class="summary">共 {archiveEntries.length} 篇文章，约 {totalWords.toLocaleString("en-US")} 字。</p>
+  <p class="summary">共 {archiveEntries.length} 篇文章，约 {totalWords.toLocaleString('en-US')} 字。</p>
   {
     years.map(([year, entries]) => (
       <section>

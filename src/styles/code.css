@@ -56,7 +56,7 @@ prose-content .code-block > button {
 
 prose-content .code-block:hover > button,
 prose-content .code-block > button:focus-visible,
-prose-content .code-block > button[data-copy-state="copied"] {
+prose-content .code-block > button[data-copy-state='copied'] {
   opacity: 1;
   pointer-events: auto;
 }
@@ -75,7 +75,7 @@ prose-content .code-block > button svg {
 }
 
 /* Astro Shiki light/dark theme bridge */
-:root[data-theme="dark"] :where(.astro-code, .astro-code span) {
+:root[data-theme='dark'] :where(.astro-code, .astro-code span) {
   background-color: var(--color-code-block-bg) !important;
   color: var(--shiki-dark) !important;
   font-style: var(--shiki-dark-font-style) !important;

@@ -1,18 +1,18 @@
 ---
-import { getCollection } from "astro:content";
-import SiteLayout from "@layouts/SiteLayout.astro";
-import { isPublished } from "@lib/publication";
+import { getCollection } from 'astro:content'
+import SiteLayout from '@layouts/SiteLayout.astro'
+import { isPublished } from '@lib/publication'
 
 // 标签统计只需要全部公开文章, 不依赖默认日期排序
-const posts = await getCollection("posts", (post) => isPublished(post));
+const posts = await getCollection('posts', (post) => isPublished(post))
 const tagCounts = posts
   .flatMap(({ data }) => data.tags)
-  .reduce((counts, tag) => counts.set(tag, (counts.get(tag) ?? 0) + 1), new Map<string, number>());
-const tags = [...tagCounts].sort(([a], [b]) => (a > b ? 1 : a < b ? -1 : 0));
-const counts = tags.map(([, count]) => count);
-const uniqueCounts = [...new Set(counts)].sort((a, b) => a - b);
-const minCount = Math.min(...counts);
-const countRange = Math.max(Math.max(...counts) - minCount, 1);
+  .reduce((counts, tag) => counts.set(tag, (counts.get(tag) ?? 0) + 1), new Map<string, number>())
+const tags = [...tagCounts].sort(([a], [b]) => (a > b ? 1 : a < b ? -1 : 0))
+const counts = tags.map(([, count]) => count)
+const uniqueCounts = [...new Set(counts)].sort((a, b) => a - b)
+const minCount = Math.min(...counts)
+const countRange = Math.max(Math.max(...counts) - minCount, 1)
 ---
 
 <SiteLayout title="标签" description="按标签浏览博客文章。">
@@ -21,9 +21,9 @@ const countRange = Math.max(Math.max(...counts) - minCount, 1);
     tags.length > 0 ? (
       <ul class="tag-list">
         {tags.map(([tag, count]) => {
-          const weight = (count - minCount) / countRange;
-          const sizeWeight = uniqueCounts.length > 1 ? uniqueCounts.indexOf(count) / (uniqueCounts.length - 1) : 0;
-          const fontSize = 1 + sizeWeight * 0.5;
+          const weight = (count - minCount) / countRange
+          const sizeWeight = uniqueCounts.length > 1 ? uniqueCounts.indexOf(count) / (uniqueCounts.length - 1) : 0
+          const fontSize = 1 + sizeWeight * 0.5
           return (
             <li>
               <a
@@ -33,7 +33,7 @@ const countRange = Math.max(Math.max(...counts) - minCount, 1);
                 {tag}
               </a>
             </li>
-          );
+          )
         })}
       </ul>
     ) : (

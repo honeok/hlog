@@ -1,6 +1,6 @@
 ---
-import SiteActions from "@components/SiteActions.astro";
-import { NAV_ITEMS, SITE } from "../config";
+import SiteActions from '@components/SiteActions.astro'
+import { NAV_ITEMS, SITE } from '../config'
 ---
 
 <header data-priority-header>
@@ -38,71 +38,71 @@ import { NAV_ITEMS, SITE } from "../config";
 </header>
 
 <script>
-  const header = document.querySelector<HTMLElement>("[data-priority-header]");
+  const header = document.querySelector<HTMLElement>('[data-priority-header]')
 
   if (header) {
-    const nav = header.querySelector<HTMLElement>("nav")!;
-    const navList = header.querySelector<HTMLElement>(".nav-list")!;
-    const overflow = header.querySelector<HTMLElement>(".nav-overflow")!;
-    const overflowToggle = header.querySelector<HTMLButtonElement>(".nav-overflow-toggle")!;
-    const overflowMenu = header.querySelector<HTMLElement>(".nav-overflow-menu")!;
-    let animationFrameId = 0;
+    const nav = header.querySelector<HTMLElement>('nav')!
+    const navList = header.querySelector<HTMLElement>('.nav-list')!
+    const overflow = header.querySelector<HTMLElement>('.nav-overflow')!
+    const overflowToggle = header.querySelector<HTMLButtonElement>('.nav-overflow-toggle')!
+    const overflowMenu = header.querySelector<HTMLElement>('.nav-overflow-menu')!
+    let animationFrameId = 0
 
     const setMenuOpen = (open: boolean) => {
-      overflowMenu.hidden = !open;
-      overflowToggle.setAttribute("aria-expanded", String(open));
-      overflowToggle.setAttribute("aria-label", open ? "关闭更多导航" : "打开更多导航");
-    };
+      overflowMenu.hidden = !open
+      overflowToggle.setAttribute('aria-expanded', String(open))
+      overflowToggle.setAttribute('aria-label', open ? '关闭更多导航' : '打开更多导航')
+    }
 
-    const navFits = () => navList.scrollWidth <= nav.clientWidth + 1 && header.scrollWidth <= header.clientWidth + 1;
+    const navFits = () => navList.scrollWidth <= nav.clientWidth + 1 && header.scrollWidth <= header.clientWidth + 1
 
     const updateNavigation = () => {
-      setMenuOpen(false);
+      setMenuOpen(false)
 
       while (overflowMenu.firstElementChild) {
-        const item = overflowMenu.firstElementChild;
-        navList.insertBefore(item, overflow);
-        overflow.hidden = overflowMenu.childElementCount === 0;
+        const item = overflowMenu.firstElementChild
+        navList.insertBefore(item, overflow)
+        overflow.hidden = overflowMenu.childElementCount === 0
 
         if (!navFits()) {
-          overflowMenu.prepend(item);
-          overflow.hidden = false;
-          break;
+          overflowMenu.prepend(item)
+          overflow.hidden = false
+          break
         }
       }
 
       while (!navFits()) {
-        const item = overflow.previousElementSibling;
-        if (!item) break;
-        overflowMenu.prepend(item);
-        overflow.hidden = false;
+        const item = overflow.previousElementSibling
+        if (!item) break
+        overflowMenu.prepend(item)
+        overflow.hidden = false
       }
-    };
+    }
 
     const scheduleNavigationUpdate = () => {
-      if (animationFrameId) return;
+      if (animationFrameId) return
       animationFrameId = window.requestAnimationFrame(() => {
-        animationFrameId = 0;
-        updateNavigation();
-      });
-    };
+        animationFrameId = 0
+        updateNavigation()
+      })
+    }
 
-    overflowToggle.addEventListener("click", () => setMenuOpen(overflowMenu.hidden !== false));
+    overflowToggle.addEventListener('click', () => setMenuOpen(overflowMenu.hidden !== false))
 
-    document.addEventListener("click", (event) => {
-      if (event.target instanceof Node && !overflow.contains(event.target)) setMenuOpen(false);
-    });
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Node && !overflow.contains(event.target)) setMenuOpen(false)
+    })
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key !== "Escape" || overflowMenu.hidden) return;
-      setMenuOpen(false);
-      overflowToggle.focus();
-    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || overflowMenu.hidden) return
+      setMenuOpen(false)
+      overflowToggle.focus()
+    })
 
-    const resizeObserver = new ResizeObserver(scheduleNavigationUpdate);
-    resizeObserver.observe(header);
-    scheduleNavigationUpdate();
-    document.fonts.ready.then(scheduleNavigationUpdate);
+    const resizeObserver = new ResizeObserver(scheduleNavigationUpdate)
+    resizeObserver.observe(header)
+    scheduleNavigationUpdate()
+    document.fonts.ready.then(scheduleNavigationUpdate)
   }
 </script>
 

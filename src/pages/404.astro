@@ -1,10 +1,10 @@
 ---
 // Adapted from: https://github.com/honeok/config/blob/main/webserver/html/404.html
-import { Font } from "astro:assets";
-import Head from "@components/Head.astro";
-import SiteFooter from "@components/SiteFooter.astro";
-import { SITE } from "../config";
-import "../styles/global.css";
+import { Font } from 'astro:assets'
+import Head from '@components/Head.astro'
+import SiteFooter from '@components/SiteFooter.astro'
+import { SITE } from '../config'
+import '../styles/global.css'
 ---
 
 <!doctype html>
@@ -12,7 +12,7 @@ import "../styles/global.css";
   <head>
     <Head title="404 Not Found" description="The requested page could not be found." />
     <!-- 404 使用和全站一致的字体 -->
-    <Font cssVariable="--font-serif" preload={[{ subset: "latin", style: "normal", weight: "200 900" }]} />
+    <Font cssVariable="--font-serif" preload={[{ subset: 'latin', style: 'normal', weight: '200 900' }]} />
     <meta name="robots" content="noindex" />
   </head>
   <body>

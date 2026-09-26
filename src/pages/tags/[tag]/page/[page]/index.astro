@@ -1,15 +1,15 @@
 ---
-import type { GetStaticPaths, Page } from "astro";
-import type { CollectionEntry } from "astro:content";
-import Pagination from "@components/Pagination.astro";
-import PostList from "@components/PostList.astro";
-import SiteLayout from "@layouts/SiteLayout.astro";
-import { getPublishedPosts } from "@lib/posts";
-import { POSTS_PER_PAGE } from "../../../../../config";
+import type { GetStaticPaths, Page } from 'astro'
+import type { CollectionEntry } from 'astro:content'
+import Pagination from '@components/Pagination.astro'
+import PostList from '@components/PostList.astro'
+import SiteLayout from '@layouts/SiteLayout.astro'
+import { getPublishedPosts } from '@lib/posts'
+import { POSTS_PER_PAGE } from '../../../../../config'
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const posts = await getPublishedPosts();
-  const tags = [...new Set(posts.flatMap(({ data }) => data.tags))];
+  const posts = await getPublishedPosts()
+  const tags = [...new Set(posts.flatMap(({ data }) => data.tags))]
 
   return tags.flatMap((tag) =>
     paginate(
@@ -20,17 +20,17 @@ export const getStaticPaths = (async ({ paginate }) => {
         props: { tag },
       },
     ).filter(({ props }) => props.page.currentPage > 1),
-  );
-}) satisfies GetStaticPaths;
+  )
+}) satisfies GetStaticPaths
 
 type Props = {
-  tag: string;
-  page: Page<CollectionEntry<"posts">>;
-};
+  tag: string
+  page: Page<CollectionEntry<'posts'>>
+}
 
-const { tag, page } = Astro.props;
-const tagHref = `/tags/${encodeURIComponent(tag)}`;
-const prev = page.currentPage === 2 ? tagHref : page.url.prev;
+const { tag, page } = Astro.props
+const tagHref = `/tags/${encodeURIComponent(tag)}`
+const prev = page.currentPage === 2 ? tagHref : page.url.prev
 ---
 
 <SiteLayout title={`${tag} · 第 ${page.currentPage} 页`} description={`标签「${tag}」下的博客文章。`}>

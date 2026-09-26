@@ -1,10 +1,10 @@
-import rss from "@astrojs/rss";
-import type { APIRoute } from "astro";
-import { getPostHref, getPublishedPosts } from "@lib/posts";
-import { SITE } from "../config";
+import rss from '@astrojs/rss'
+import type { APIRoute } from 'astro'
+import { getPostHref, getPublishedPosts } from '@lib/posts'
+import { SITE } from '../config'
 
 export const GET: APIRoute = async (context) => {
-  const posts = await getPublishedPosts();
+  const posts = await getPublishedPosts()
 
   return rss({
     title: SITE.title,
@@ -18,5 +18,5 @@ export const GET: APIRoute = async (context) => {
       pubDate: post.data.date,
       link: getPostHref(post.data.id),
     })),
-  });
-};
+  })
+}

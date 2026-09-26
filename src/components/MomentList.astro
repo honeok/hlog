@@ -1,19 +1,19 @@
 ---
-import { render, type CollectionEntry } from "astro:content";
-import FormattedDate from "./FormattedDate.astro";
-import MetaTags from "./MetaTags.astro";
+import { render, type CollectionEntry } from 'astro:content'
+import FormattedDate from './FormattedDate.astro'
+import MetaTags from './MetaTags.astro'
 
 type Props = {
-  entries: CollectionEntry<"moments">[];
-};
+  entries: CollectionEntry<'moments'>[]
+}
 
-const { entries } = Astro.props;
+const { entries } = Astro.props
 const renderedEntries = await Promise.all(
   entries.map(async (entry) => ({
     entry,
     Content: (await render(entry)).Content,
   })),
-);
+)
 ---
 
 <ol class="moment-list">

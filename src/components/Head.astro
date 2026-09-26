@@ -1,65 +1,65 @@
 ---
-import { ANALYTICS, SITE } from "../config";
+import { ANALYTICS, SITE } from '../config'
 
 type Props = {
-  title?: string;
-  description?: string;
-  type?: "website" | "article";
-  publishedTime?: Date;
-  modifiedTime?: Date;
-};
+  title?: string
+  description?: string
+  type?: 'website' | 'article'
+  publishedTime?: Date
+  modifiedTime?: Date
+}
 
 const {
   title = SITE.title,
   description = SITE.description,
-  type = "website",
+  type = 'website',
   publishedTime,
   modifiedTime,
-} = Astro.props;
-const isHome = Astro.url.pathname === "/";
-const pageTitle = isHome ? SITE.title : `${title} | ${SITE.title}`;
-const pathname = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replace(/\/+$/, "");
-const canonical = new URL(pathname, Astro.site ?? Astro.url);
+} = Astro.props
+const isHome = Astro.url.pathname === '/'
+const pageTitle = isHome ? SITE.title : `${title} | ${SITE.title}`
+const pathname = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/+$/, '')
+const canonical = new URL(pathname, Astro.site ?? Astro.url)
 const articleJsonLd =
-  type === "article" && publishedTime
+  type === 'article' && publishedTime
     ? {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
         headline: title,
         description,
         url: canonical.href,
         datePublished: publishedTime.toISOString(),
         ...(modifiedTime ? { dateModified: modifiedTime.toISOString() } : {}),
         author: {
-          "@type": "Person",
+          '@type': 'Person',
           name: SITE.author,
-          url: new URL("/about", SITE.url).href,
+          url: new URL('/about', SITE.url).href,
         },
       }
-    : undefined;
-const articleJsonLdJson = articleJsonLd ? JSON.stringify(articleJsonLd).replace(/</g, "\\u003c") : undefined;
+    : undefined
+const articleJsonLdJson = articleJsonLd ? JSON.stringify(articleJsonLd).replace(/</g, '\\u003c') : undefined
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#fcfcfc" />
 <script is:inline>
-  (() => {
-    const themeKey = "theme";
-    let storedTheme = null;
+  ;(() => {
+    const themeKey = 'theme'
+    let storedTheme = null
 
     try {
-      storedTheme = localStorage.getItem(themeKey);
+      storedTheme = localStorage.getItem(themeKey)
     } catch {}
 
-    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-    const theme = ["light", "dark"].includes(storedTheme) ? storedTheme : prefersDark ? "dark" : "light";
+    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches
+    const theme = ['light', 'dark'].includes(storedTheme) ? storedTheme : prefersDark ? 'dark' : 'light'
 
-    document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.theme = theme
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", theme === "dark" ? "#1a1a1a" : "#fcfcfc");
-  })();
+      ?.setAttribute('content', theme === 'dark' ? '#1a1a1a' : '#fcfcfc')
+  })()
 </script>
 <meta name="generator" content={Astro.generator} />
 <meta name="description" content={description} />
