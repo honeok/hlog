@@ -17,7 +17,9 @@ const readStoredTheme = (): Theme | null => {
   try {
     const theme = localStorage.getItem(THEME_KEY)
     return isTheme(theme) ? theme : null
-  } catch {}
+  } catch {
+    // Storage may be unavailable; return null to follow the system theme.
+  }
 
   return null
 }
@@ -25,11 +27,13 @@ const readStoredTheme = (): Theme | null => {
 const writeTheme = (theme: Theme) => {
   try {
     localStorage.setItem(THEME_KEY, theme)
-  } catch {}
+  } catch {
+    // Storage may be unavailable; the selected theme still applies to this page.
+  }
 }
 
 const storedTheme = readStoredTheme()
-let followsSystem = storedTheme === null
+let isFollowingSystem = storedTheme === null
 let activeTheme = storedTheme ?? getSystemTheme()
 
 const applyTheme = (theme: Theme) => {
@@ -46,12 +50,12 @@ const applyTheme = (theme: Theme) => {
 }
 
 const syncSystemTheme = () => {
-  if (followsSystem) applyTheme(getSystemTheme())
+  if (isFollowingSystem) applyTheme(getSystemTheme())
 }
 
 applyTheme(activeTheme)
 themeButton?.addEventListener('click', () => {
-  followsSystem = false
+  isFollowingSystem = false
   const nextTheme = activeTheme === 'dark' ? 'light' : 'dark'
   applyTheme(nextTheme)
   writeTheme(nextTheme)

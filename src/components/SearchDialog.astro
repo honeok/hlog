@@ -59,7 +59,7 @@
   document.querySelector('[data-search-trigger]')?.addEventListener('click', () => {
     dialog?.showModal()
     requestAnimationFrame(() => input?.focus())
-    if (!items) void loadItems()
+    if (!items) void loadItems().catch((error) => console.error('Failed to load search index:', error))
   })
   input?.addEventListener('input', render)
   input?.addEventListener('keydown', (event) => {

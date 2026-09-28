@@ -50,10 +50,12 @@ const articleJsonLdJson = articleJsonLd ? JSON.stringify(articleJsonLd).replace(
 
     try {
       storedTheme = localStorage.getItem(themeKey)
-    } catch {}
+    } catch {
+      // Storage may be unavailable; use the system preference below.
+    }
 
-    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches
-    const theme = ['light', 'dark'].includes(storedTheme) ? storedTheme : prefersDark ? 'dark' : 'light'
+    const isDarkModePreferred = window.matchMedia?.('(prefers-color-scheme: dark)').matches
+    const theme = ['light', 'dark'].includes(storedTheme) ? storedTheme : isDarkModePreferred ? 'dark' : 'light'
 
     document.documentElement.dataset.theme = theme
     document

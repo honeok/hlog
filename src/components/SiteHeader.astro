@@ -48,13 +48,14 @@ import { NAV_ITEMS, SITE } from '../config'
     const overflowMenu = header.querySelector<HTMLElement>('.nav-overflow-menu')!
     let animationFrameId = 0
 
-    const setMenuOpen = (open: boolean) => {
-      overflowMenu.hidden = !open
-      overflowToggle.setAttribute('aria-expanded', String(open))
-      overflowToggle.setAttribute('aria-label', open ? '关闭更多导航' : '打开更多导航')
+    const setMenuOpen = (isOpen: boolean) => {
+      overflowMenu.hidden = !isOpen
+      overflowToggle.setAttribute('aria-expanded', String(isOpen))
+      overflowToggle.setAttribute('aria-label', isOpen ? '关闭更多导航' : '打开更多导航')
     }
 
-    const navFits = () => navList.scrollWidth <= nav.clientWidth + 1 && header.scrollWidth <= header.clientWidth + 1
+    const hasRoomForNavigation = () =>
+      navList.scrollWidth <= nav.clientWidth + 1 && header.scrollWidth <= header.clientWidth + 1
 
     const updateNavigation = () => {
       setMenuOpen(false)
@@ -64,14 +65,14 @@ import { NAV_ITEMS, SITE } from '../config'
         navList.insertBefore(item, overflow)
         overflow.hidden = overflowMenu.childElementCount === 0
 
-        if (!navFits()) {
+        if (!hasRoomForNavigation()) {
           overflowMenu.prepend(item)
           overflow.hidden = false
           break
         }
       }
 
-      while (!navFits()) {
+      while (!hasRoomForNavigation()) {
         const item = overflow.previousElementSibling
         if (!item) break
         overflowMenu.prepend(item)
