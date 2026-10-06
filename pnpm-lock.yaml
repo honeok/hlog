@@ -176,8 +176,8 @@ importers:
         specifier: ^3.7.4
         version: 3.7.4
       '@lucide/astro':
-        specifier: ^1.50.0
-        version: 1.50.0(astro@7.3.5(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+        specifier: ^1.51.0
+        version: 1.51.0(astro@7.3.5(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
       astro:
         specifier: ^7.3.5
         version: 7.3.5(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)
@@ -759,8 +759,8 @@ packages:
   '@jridgewell/sourcemap-codec@1.6.0':
     resolution: {integrity: sha512-T7jf+5zgsZHwNJ4lvQ7/aezbyk0nNX+zJVWpmHA7VYsEx7a7qr5Rg5IbtJFqkgze5Y2sruq1RUY8Q837Od7iFw==}
 
-  '@lucide/astro@1.50.0':
-    resolution: {integrity: sha512-surKmnnGXbF227FWbj7/Jpt/wOTuxZHCtMN2lposWr64p61XwdqMjqCzu1O8KhmUEkNOzdbcrS4Xc46GXsS0sA==}
+  '@lucide/astro@1.51.0':
+    resolution: {integrity: sha512-tZkfwLj/4FFnkCNxRywfmj7r8XrZwpPMVQS1ud1U7y5IVXBnz+mxCnmEk/ZXbc7JiQZAnz0C3CAiVBZs/eh+QQ==}
     peerDependencies:
       astro: ^4 || ^5 || ^6 || ^7
 
@@ -2496,7 +2496,7 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.6.0': {}
 
-  '@lucide/astro@1.50.0(astro@7.3.5(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))':
+  '@lucide/astro@1.51.0(astro@7.3.5(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))':
     dependencies:
       astro: 7.3.5(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)
 
