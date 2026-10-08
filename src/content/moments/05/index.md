@@ -5,7 +5,7 @@ tags:
 draft: false
 ---
 
-GTA V 不知道什么时候多了[增强版][1]，原来我已经太久没回到故乡 😭
+GTA V 不知道什么时候多了[增强版][1] 🤨
 
 <p style="text-align:center;">
   <img src="https://cdn.skyimg.net/up/2026/9/26/e57e1c98.webp">
