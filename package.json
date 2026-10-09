@@ -10,11 +10,11 @@
     "typecheck": "astro check"
   },
   "dependencies": {
-    "@astrojs/markdown-satteri": "^0.4.2",
+    "@astrojs/markdown-satteri": "^0.4.3",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@lucide/astro": "^1.52.0",
-    "astro": "^7.3.5",
+    "astro": "^7.3.6",
     "medium-zoom-next": "^2.0.1",
     "reading-time-estimator": "^2.15.0",
     "satteri": "^0.10.5",
