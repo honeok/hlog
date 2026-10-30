@@ -1,5 +1,5 @@
 ---
-name: "Dependabot merge"
+name: Dependabot merge
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   dependabot:
-    name: "Dependabot merge"
+    name: Dependabot merge
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     permissions:
@@ -17,15 +17,14 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: "Fetch dependabot metadata"
+      - name: Fetch dependabot metadata
         uses: dependabot/fetch-metadata@v3
         with:
           github-token: ${{ github.token }}
 
-      - name: "Approve and auto merge"
+      - name: Approve and auto merge
         env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh pr review --approve "$PR_URL"
-          gh pr merge --squash --auto "$PR_URL"
+          gh pr review --approve ${{ github.event.pull_request.html_url }}
+          gh pr merge --auto --delete-branch --squash ${{ github.event.pull_request.html_url }}

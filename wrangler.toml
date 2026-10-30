@@ -10,3 +10,6 @@ preview_urls = false
 directory = "./dist"
 html_handling = "none"
 not_found_handling = "404-page"
+
+[observability]
+enabled = false
