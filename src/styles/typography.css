@@ -1,4 +1,4 @@
-/* Native Markdown typography container. */
+/* 原生 Markdown 正文排版容器 */
 prose-content {
   display: block;
   color: var(--color-text);

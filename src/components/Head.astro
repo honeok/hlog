@@ -51,7 +51,7 @@ const articleJsonLdJson = articleJsonLd ? JSON.stringify(articleJsonLd).replace(
     try {
       storedTheme = localStorage.getItem(themeKey)
     } catch {
-      // Storage may be unavailable; use the system preference below.
+      // localStorage 可能不可用, 此时使用下方的系统主题偏好
     }
 
     const isDarkModePreferred = window.matchMedia?.('(prefers-color-scheme: dark)').matches

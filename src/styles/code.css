@@ -1,4 +1,4 @@
-/* Inline code styling; fenced code remains owned by Astro Shiki. */
+/* 行内代码样式, 围栏代码块仍由 Astro Shiki 处理 */
 prose-content :where(code, .astro-code, .code-block) {
   font-family: var(--font-mono);
 }
@@ -14,7 +14,7 @@ prose-content :where(code):not(:where(pre code)) {
   box-shadow: none;
 }
 
-/* Code block copy interaction */
+/* 代码块复制交互 */
 prose-content .code-block {
   position: relative;
   inline-size: 100%;
@@ -74,7 +74,7 @@ prose-content .code-block > button svg {
   display: block;
 }
 
-/* Astro Shiki light/dark theme bridge */
+/* 衔接 Astro Shiki 的明暗主题样式 */
 :root[data-theme='dark'] :where(.astro-code, .astro-code span) {
   background-color: var(--color-code-block-bg) !important;
   color: var(--shiki-dark) !important;

@@ -18,7 +18,7 @@ const readStoredTheme = (): Theme | null => {
     const theme = localStorage.getItem(THEME_KEY)
     return isTheme(theme) ? theme : null
   } catch {
-    // Storage may be unavailable; return null to follow the system theme.
+    // localStorage 可能不可用, 返回 null 以跟随系统主题
   }
 
   return null
@@ -28,7 +28,7 @@ const writeTheme = (theme: Theme) => {
   try {
     localStorage.setItem(THEME_KEY, theme)
   } catch {
-    // Storage may be unavailable; the selected theme still applies to this page.
+    // localStorage 可能不可用, 所选主题仍会应用于当前页面
   }
 }
 
