@@ -20,11 +20,11 @@ draft: false
 动身南下，火车窗外城市灯影渐远，化作老街低语。雾气中细雨绵绵，青砖湿润，寺钟悠扬中，茶馆老人闲话张大千旧闻，皆如迥异尘嚣的余音，悄然回荡在心底。独自漫步江边，雨丝敲石，这悲伤无端，却在川蜀湿润中悄然释怀。
 
 <p style="display:flex; align-items:center; gap:2%;">
-  <img src="https://img.meituan.net/csc/5c6c414eba8d83940b8f76d520ac0f311187644.jpg" style="width:49%">
-  <img src="https://img.meituan.net/csc/01da542cafa64f80eea5ceffe273d2731160085.jpg" style="width:49%">
+  <img src="./img/2025100601.avif" style="width:49%">
+  <img src="./img/2025100603.avif" style="width:49%">
 </p>
 
 <p style="display:flex; align-items:center; gap:2%;">
-  <img src="https://img.meituan.net/csc/ebb97234eb83d1cc902c8d7b6e2fe9321350324.jpg" style="width:49%">
-  <img src="https://m.360buyimg.com/i/jfs/t1/344991/31/23001/890685/690c1c59Fc923ee87/7bdd802063026197.jpg" style="width:49%">
+  <img src="./img/2025100604.avif" style="width:49%">
+  <img src="./img/2025100605.avif" style="width:49%">
 </p>

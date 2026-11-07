@@ -8,4 +8,4 @@ draft: false
 
 时代的眼泪
 
-![img](./img/2026110701.jpg)
+![img](./img/2026110701.avif)
