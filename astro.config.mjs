@@ -11,6 +11,11 @@ export default defineConfig({
   site: SITE.url,
   trailingSlash: 'never',
   output: 'static',
+  image: {
+    service: {
+      entrypoint: './src/lib/image-service.ts',
+    },
+  },
   fonts: [
     {
       provider: fontProviders.google(),
