@@ -3,6 +3,7 @@ import { satteri } from '@astrojs/markdown-satteri'
 import { defineConfig, fontProviders } from 'astro/config'
 import { SITE } from './src/config.ts'
 import copyCodeBlocks from './src/plugins/copy-code.mjs'
+import momentImages from './src/plugins/moment-images.mjs'
 import readingTime from './src/plugins/reading-time.mjs'
 import video from './src/plugins/video.mjs'
 
@@ -60,7 +61,7 @@ export default defineConfig({
         },
       },
       mdastPlugins: [video, readingTime],
-      hastPlugins: [copyCodeBlocks],
+      hastPlugins: [copyCodeBlocks, momentImages],
     }),
     shikiConfig: {
       themes: {

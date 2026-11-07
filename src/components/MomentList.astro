@@ -67,10 +67,103 @@ const renderedEntries = await Promise.all(
   }
 
   .moment-list :global(prose-content img) {
+    inline-size: auto;
     max-height: 24rem;
+  }
+
+  .moment-list :global([data-moment-images]) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.25rem;
+    margin-block-start: 0.75rem;
+  }
+
+  .moment-list :global([data-moment-images='1']) {
+    grid-template-columns: 1fr;
+  }
+
+  .moment-list :global([data-moment-images='2']) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .moment-list :global([data-moment-images] > div) {
+    min-inline-size: 0;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .moment-list :global([data-moment-images] img) {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    max-height: none;
+    object-fit: cover;
+  }
+
+  .moment-list :global([data-moment-images='1'] > div) {
+    aspect-ratio: auto;
+  }
+
+  .moment-list :global([data-moment-images='1'] img) {
+    block-size: auto;
+    max-height: 24rem;
+  }
+
+  /* 保持完整图片副本的宽高比, 并在视口变化时保持其基础尺寸稳定 */
+  :global([data-moment-image].medium-zoom-image--opened) {
+    max-inline-size: none;
+    block-size: auto !important;
+    object-fit: contain;
+    clip-path: inset(0);
+    transition-property: transform, clip-path !important;
   }
 
   .moment-list :global([data-code-copy]) {
     display: none;
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLImageElement>('.moment-list [data-moment-image]').forEach((image) => {
+    image.addEventListener('medium-zoom:close', () => {
+      const zoomed = document.querySelector<HTMLImageElement>('body > [data-moment-image].medium-zoom-image--opened')
+      if (!zoomed) return
+
+      const restoreCrop = () => {
+        // 在 medium-zoom-next 将图片副本替换为缩略图前, 匹配 object-fit: cover 的可见裁剪区域
+        const thumbnail = image.getBoundingClientRect()
+        const style = getComputedStyle(zoomed)
+        const width = Number.parseFloat(style.width)
+        const height = Number.parseFloat(style.height)
+        const scale = Math.max(thumbnail.width / width, thumbnail.height / height)
+        const x =
+          thumbnail.left + thumbnail.width / 2 - (Number.parseFloat(zoomed.style.left) - window.scrollX + width / 2)
+        const y =
+          thumbnail.top + thumbnail.height / 2 - (Number.parseFloat(zoomed.style.top) - window.scrollY + height / 2)
+        const insetX = Math.max(0, (1 - thumbnail.width / (width * scale)) / 2) * 100
+        const insetY = Math.max(0, (1 - thumbnail.height / (height * scale)) / 2) * 100
+
+        zoomed.style.transform = `translate(${x}px, ${y}px) scale(${scale})`
+        zoomed.style.clipPath = `inset(${insetY}% ${insetX}%)`
+      }
+      const handleResize = () => {
+        // 同步重启 transform 和 clip-path 过渡, 避免更新目标后其中一项提前结束
+        const style = getComputedStyle(zoomed)
+        const transform = style.transform
+        const clipPath = style.clipPath
+        zoomed.style.setProperty('transition', 'none', 'important')
+        zoomed.style.transform = transform
+        zoomed.style.clipPath = clipPath
+        zoomed.getBoundingClientRect()
+        zoomed.style.removeProperty('transition')
+        restoreCrop()
+      }
+
+      restoreCrop()
+      window.addEventListener('resize', handleResize)
+      image.addEventListener('medium-zoom:closed', () => window.removeEventListener('resize', handleResize), {
+        once: true,
+      })
+    })
+  })
+</script>
