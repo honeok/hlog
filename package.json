@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "astro build",
-    "dev": "astro dev",
+    "dev": "astro dev --host 0.0.0.0",
     "preview": "astro preview",
     "typecheck": "astro check"
   },
@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "astro-pagefind": "^2.0.1",
     "typescript": "^6.0.3"
   },
   "packageManager": "pnpm@12.4.2"

@@ -6,64 +6,83 @@
 </dialog>
 
 <script>
-  type SearchItem = { title: string; href: string }
-  type SearchData = { posts: SearchItem[] }
+  type PagefindResult = { url: string; meta: { title: string } }
+  type Pagefind = {
+    debouncedSearch: (query: string) => Promise<{
+      results: { data: () => Promise<PagefindResult> }[]
+    } | null>
+  }
 
   const dialog = document.querySelector<HTMLDialogElement>('[data-search-dialog]')
   const form = dialog?.querySelector<HTMLFormElement>('[data-search-form]')
   const input = dialog?.querySelector<HTMLInputElement>('[data-search-input]')
   const results = dialog?.querySelector<HTMLElement>('[data-search-results]')
-  let items: SearchItem[] | undefined
+  let pagefindPromise: Promise<Pagefind> | undefined
+  let searchId = 0
 
-  const loadItems = async () => {
-    const response = await fetch('/posts.json')
-    if (!response.ok) throw new Error('Failed to load search index')
-    const data: SearchData = await response.json()
-    items = data.posts
-    render()
+  const loadPagefind = () => {
+    // Pagefind 在 Astro 构建后生成, 因此需保留此导入供浏览器在运行时加载
+    const modulePath = '/pagefind/pagefind.js'
+    pagefindPromise ??= import(/* @vite-ignore */ modulePath).catch((error) => {
+      pagefindPromise = undefined
+      throw error
+    })
+    return pagefindPromise
   }
 
-  const render = () => {
+  const search = async () => {
+    // 搜索和清空共用序号, 使旧请求在后续异步检查中失效
+    const requestId = ++searchId
     if (!input || !results) return
-    const terms = input.value.toLocaleLowerCase('zh-CN').trim().split(/\s+/).filter(Boolean)
-    const searchItems = items
-
+    const query = input.value.trim()
     results.replaceChildren()
-    results.hidden = terms.length === 0 || !searchItems
-    if (!terms.length || !searchItems) return
+    results.hidden = true
+    if (!query || !dialog?.open) return
 
-    const matches = searchItems
-      .filter(({ title }) => {
-        const normalizedTitle = title.toLocaleLowerCase('zh-CN')
-        return terms.every((term) => normalizedTitle.includes(term))
-      })
-      .slice(0, 8)
-    const content = document.createDocumentFragment()
+    try {
+      const pagefind = await loadPagefind()
+      if (requestId !== searchId || !dialog.open) return
+      const response = await pagefind.debouncedSearch(query)
+      if (!response || requestId !== searchId || !dialog.open) return
+      // 仅获取默认排名前 8 条的数据, 避免加载其余结果片段
+      const matches = await Promise.all(response.results.slice(0, 8).map((result) => result.data()))
+      if (requestId !== searchId || !dialog.open) return
 
-    for (const { title, href } of matches) {
-      const link = document.createElement('a')
-      link.href = href
-      link.textContent = title
-      content.append(link)
+      const content = document.createDocumentFragment()
+
+      for (const { meta, url } of matches) {
+        const link = document.createElement('a')
+        link.href = url
+        link.textContent = meta.title
+        content.append(link)
+      }
+
+      if (!matches.length) {
+        const empty = document.createElement('p')
+        empty.textContent = '没有匹配的文章'
+        content.append(empty)
+      }
+
+      results.append(content)
+      results.hidden = false
+    } catch (error) {
+      if (requestId !== searchId || !dialog?.open) return
+      console.error('Failed to search with Pagefind:', error)
+      const message = document.createElement('p')
+      message.textContent = '搜索暂时不可用，请稍后重试'
+      results.replaceChildren(message)
+      results.hidden = false
     }
-
-    if (!matches.length) {
-      const empty = document.createElement('p')
-      empty.textContent = '没有匹配的文章'
-      content.append(empty)
-    }
-
-    results.append(content)
   }
 
   document.querySelector('[data-search-trigger]')?.addEventListener('click', () => {
     dialog?.showModal()
     requestAnimationFrame(() => input?.focus())
-    if (!items) void loadItems().catch((error) => console.error('Failed to load search index:', error))
   })
-  input?.addEventListener('input', render)
+  input?.addEventListener('input', () => void search())
   input?.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape') return
+    // 组合输入期间将 Escape 留给输入法, 避免提前关闭弹窗
+    if (event.isComposing || event.key !== 'Escape') return
     event.preventDefault()
     dialog?.close()
   })
@@ -74,7 +93,7 @@
   dialog?.addEventListener('click', ({ target }) => target === dialog && dialog.close())
   dialog?.addEventListener('close', () => {
     if (input) input.value = ''
-    render()
+    void search()
   })
 </script>
 

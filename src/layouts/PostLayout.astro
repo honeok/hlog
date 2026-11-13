@@ -21,35 +21,38 @@ const { title, description, date, updated, readingTime, tags, nextPost } = Astro
 
 <SiteLayout title={title} description={description} type="article" publishedTime={date} modifiedTime={updated}>
   <header>
-    <h1>{title}</h1>
+    {/* 仅标记标题和正文, 避免日期和导航等无关内容参与搜索 */}
+    <h1 data-pagefind-body data-pagefind-meta="title">
+      {title}
+    </h1>
     <p class="post-meta">
       <FormattedDate date={date} />
-      <span> · 约 {readingTime.words.toLocaleString('zh-CN')} 字 · 预计阅读 {readingTime.minutes} 分钟</span>
+      <span>
+        {' '}
+        · 约 {readingTime.words.toLocaleString('zh-CN')} 字 · 预计阅读 {readingTime.minutes} 分钟
+      </span>
       <MetaTags tags={tags} hrefPrefix="/tags" />
-      {
-        updated && (
-          <span>
-            {' '}
-            · updated <FormattedDate date={updated} />
-          </span>
-        )
-      }
+      {updated && (
+        <span>
+          {' '}
+          · updated <FormattedDate date={updated} />
+        </span>
+      )}
     </p>
   </header>
-  <prose-content>
+  <!-- 显式清空自动图片元数据, 避免图片文件名参与搜索 -->
+  <prose-content data-pagefind-body data-pagefind-meta="image:">
     <slot />
   </prose-content>
-  {
-    nextPost && (
-      <nav aria-label="下一篇">
-        <p>下一篇</p>
-        <h2>
-          <a href={getPostHref(nextPost.data.id)}>{nextPost.data.title}</a>
-        </h2>
-        <p>{nextPost.data.description}</p>
-      </nav>
-    )
-  }
+  {nextPost && (
+    <nav aria-label="下一篇">
+      <p>下一篇</p>
+      <h2>
+        <a href={getPostHref(nextPost.data.id)}>{nextPost.data.title}</a>
+      </h2>
+      <p>{nextPost.data.description}</p>
+    </nav>
+  )}
 </SiteLayout>
 
 <style>

@@ -1,6 +1,7 @@
 import sitemap from '@astrojs/sitemap'
 import { satteri } from '@astrojs/markdown-satteri'
 import { defineConfig, fontProviders } from 'astro/config'
+import pagefind from 'astro-pagefind'
 import { SITE } from './src/config.ts'
 import copyCodeBlocks from './src/plugins/copy-code.mjs'
 import momentImages from './src/plugins/moment-images.mjs'
@@ -43,6 +44,8 @@ export default defineConfig({
     format: 'preserve',
   },
   integrations: [
+    // 构建时生成索引, 开发模式复用最近一次构建产物
+    pagefind(),
     sitemap({
       serialize(item) {
         const url = new URL(item.url)
