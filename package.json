@@ -13,7 +13,7 @@
     "@astrojs/markdown-satteri": "^0.4.7",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
-    "@lucide/astro": "^1.70.0",
+    "@lucide/astro": "^1.71.0",
     "astro": "^7.4.8",
     "medium-zoom-next": "^2.0.1",
     "reading-time-estimator": "^2.15.0",
